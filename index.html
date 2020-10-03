@@ -13,7 +13,10 @@
 <body>
     
 <div class=centered1>
-    <p id='answer'>yes</p>
+    <p id='answer'></p>
+</div>
+<div class=bottomright>
+    <p id='ts'></p>
 </div>
     
 </body>
@@ -24,7 +27,7 @@ var token ='d84220b08a5a744bfbbdf96b56b232094790b450' ;
 var devID = 'e00fce68e943115b7ba5a8a1';
     
 window.onload = doFunction();
-window.setInterval(function(){doFunction();}, 500);
+window.setInterval(function(){doFunction();}, 1000);
     
 function refreshCounts(){
     doFunction('checkUp');
@@ -46,18 +49,33 @@ function scroll(){
     } 
 
 function doFunction(inputString){
-    var count=0;
-//    var fnPr = particle.callFunction({ deviceId: devID, name: 'switchVal', argument: inputString, auth: token });
+    
+    //Get Switch Val
     var fnPr= particle.getVariable({ deviceId: devID, name: 'isBrunch', auth: token });
-    console.log("here");
-//    console.log(isBrunch);
-
     var count = fnPr.then(
       function(data) {
-//            updateCounts( data['body'].result, inputString);
-            console.log( data['body'].result);
           if(data['body'].result){       document.getElementById('answer').innerHTML = 'yes';}
           else{document.getElementById('answer').innerHTML = 'no';}
+      }, function(err) {
+        console.log('An error occurred:', err);
+      });
+    
+    //Get time of last switch change
+    var fnPr= particle.getVariable({ deviceId: devID, name: 'lastSwitch', auth: token });
+    var count = fnPr.then(
+            function(data) {
+                var ts = data['body'].result;
+                var date = new Date(data['body'].result * 1000);
+                var hours = date.getHours();
+                // Minutes part from the timestamp
+                var minutes = "0" + date.getMinutes();
+                // Seconds part from the timestamp
+                var month = date.getMonth()+1;
+                var day = date.getDate();
+                var formattedTime = hours + ':' + minutes.substr(-2) ;
+                var text = 'updated '+month+'/'+day;
+                if(data['body'].result){       document.getElementById('ts').innerHTML =text ;}
+                else{document.getElementById('ts').innerHTML =text;}
       }, function(err) {
         console.log('An error occurred:', err);
       });

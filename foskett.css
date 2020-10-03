@@ -32,3 +32,10 @@ div.centered1 {
         font-size: 150px;
 font-weight: bold;  
 }
+
+.bottomright {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+  font-size: 18px;
+}
