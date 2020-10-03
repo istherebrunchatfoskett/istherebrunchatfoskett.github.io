@@ -27,7 +27,7 @@ var token ='d84220b08a5a744bfbbdf96b56b232094790b450' ;
 var devID = 'e00fce68e943115b7ba5a8a1';
     
 window.onload = doFunction();
-window.setInterval(function(){doFunction();}, 1000);
+//window.setInterval(function(){doFunction();}, 2000);
     
 function refreshCounts(){
     doFunction('checkUp');
@@ -52,11 +52,13 @@ function doFunction(inputString){
     
     //Get Switch Val
     var fnPr= particle.getVariable({ deviceId: devID, name: 'isBrunch', auth: token });
+    console.log(fnPr);
     var count = fnPr.then(
       function(data) {
-          if(data['body'].result){       document.getElementById('answer').innerHTML = 'yes';}
+          if(data['body'].result){document.getElementById('answer').innerHTML = 'yes';}
           else{document.getElementById('answer').innerHTML = 'no';}
       }, function(err) {
+        document.getElementById('answer').innerHTML = "i'm broken, call coby...";
         console.log('An error occurred:', err);
       });
     
