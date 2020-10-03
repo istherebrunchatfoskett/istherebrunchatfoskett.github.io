@@ -1,1 +1,68 @@
-Good morning!
+<!DOCTYPE html>
+<html>
+<script type="text/javascript" src="//cdn.jsdelivr.net/particle-api-js/5/particle.min.js">
+    
+</script>
+<head>
+    <link rel="stylesheet" href="foskett.css">
+
+    <style>
+        
+    </style>
+    </head>
+<body>
+    
+<div class=centered1>
+    <p id='answer'>yes</p>
+</div>
+    
+</body>
+    
+<script>    
+var particle = new Particle();
+var token ='d84220b08a5a744bfbbdf96b56b232094790b450' ;
+var devID = 'e00fce68e943115b7ba5a8a1';
+    
+window.onload = doFunction();
+window.setInterval(function(){doFunction();}, 500);
+    
+function refreshCounts(){
+    doFunction('checkUp');
+    doFunction('checkDown');
+    }
+    
+function updateCounts(count, loc){
+    if (loc == 'up' || loc=='checkUp'){
+        document.getElementById('up').innerHTML = count;
+        }
+    else if (loc == 'down' || 'checkDown'){
+        document.getElementById('down').innerHTML = count;
+        }
+    }    
+    
+function scroll(){
+    console.log('scroll');
+    document.body.style.cursor = "pointer";
+    } 
+
+function doFunction(inputString){
+    var count=0;
+//    var fnPr = particle.callFunction({ deviceId: devID, name: 'switchVal', argument: inputString, auth: token });
+    var fnPr= particle.getVariable({ deviceId: devID, name: 'isBrunch', auth: token });
+    console.log("here");
+//    console.log(isBrunch);
+
+    var count = fnPr.then(
+      function(data) {
+//            updateCounts( data['body'].result, inputString);
+            console.log( data['body'].result);
+          if(data['body'].result){       document.getElementById('answer').innerHTML = 'yes';}
+          else{document.getElementById('answer').innerHTML = 'no';}
+      }, function(err) {
+        console.log('An error occurred:', err);
+      });
+    }
+    
+
+    </script>
+</html>
